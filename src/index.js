@@ -1,10 +1,12 @@
 /**
- * JSONKit - A fast, easy-to-use JSON database for Node.js
- * @module jsonkit
+ * Harmony - A harmonious JSON database
+ * Main export file
  */
 
-import { JSONKit } from './database.js';
-import { Query } from './query.js';
+export { Harmony } from './database.js';
+export { Query } from './query.js';
+export { magic } from './magic.js';
+export { Chain } from './chain.js';
 
-export { JSONKit, Query };
-export default JSONKit;
+// Default export
+export { Harmony as default } from './database.js';

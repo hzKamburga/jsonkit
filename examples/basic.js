@@ -1,77 +1,66 @@
 /**
- * Basic usage example for JSONKit
+ * Basic Usage Example - Harmony
+ * Classic API demonstration
  */
 
-import { JSONKit } from '../src/index.js';
+import { Harmony } from '../src/index.js';
 
 async function main() {
+  console.log('🎵 Harmony - Classic API Example\n');
+
   // Create database instance
-  const db = new JSONKit('mydata.json', {
+  const db = new Harmony('test-data.json', {
     autoSave: true,
     pretty: true
   });
 
   // Load database
   await db.load();
+  console.log('✅ Database loaded\n');
 
-  console.log('📦 JSONKit Example\n');
+  // Insert users
+  console.log('📝 Inserting users...');
+  await db.insert('users', [
+    { id: 1, name: 'Alice', age: 25, role: 'admin' },
+    { id: 2, name: 'Bob', age: 30, role: 'user' },
+    { id: 3, name: 'Charlie', age: 28, role: 'user' }
+  ]);
+  console.log('✅ Users inserted\n');
 
-  // Insert data
-  console.log('➕ Inserting users...');
-  await db.insert('users', {
-    id: 1,
-    name: 'Alice',
-    email: 'alice@example.com',
-    age: 25
-  });
+  // Find users
+  console.log('🔍 Finding users with role "user":');
+  const users = await db.find('users', { role: 'user' });
+  console.log(users);
+  console.log();
 
-  await db.insert('users', {
-    id: 2,
-    name: 'Bob',
-    email: 'bob@example.com',
-    age: 30
-  });
-
-  await db.insert('users', {
-    id: 3,
-    name: 'Charlie',
-    email: 'charlie@example.com',
-    age: 28
-  });
-
-  // Find all users
-  console.log('\n🔍 Finding all users:');
-  const allUsers = await db.find('users');
-  console.log(allUsers);
-
-  // Find specific user
-  console.log('\n🔍 Finding user with name "Bob":');
-  const bob = await db.findOne('users', { name: 'Bob' });
-  console.log(bob);
-
-  // Find with query operators
-  console.log('\n🔍 Finding users older than 26:');
-  const olderUsers = await db.find('users', { age: { $gt: 26 } });
-  console.log(olderUsers);
-
-  // Update user
-  console.log('\n✏️ Updating Bob\'s age:');
-  await db.update('users', { name: 'Bob' }, { age: 31 });
-  const updatedBob = await db.findOne('users', { name: 'Bob' });
-  console.log(updatedBob);
+  // Find one user
+  console.log('🔍 Finding Alice:');
+  const alice = await db.findOne('users', { name: 'Alice' });
+  console.log(alice);
+  console.log();
 
   // Count users
-  console.log('\n📊 Total users:');
   const count = await db.count('users');
-  console.log(count);
+  console.log(`📊 Total users: ${count}\n`);
+
+  // Update user
+  console.log('✏️ Updating Bob\'s age...');
+  await db.update('users', { name: 'Bob' }, { age: 31 });
+  const bob = await db.findOne('users', { name: 'Bob' });
+  console.log('Updated Bob:', bob);
+  console.log();
 
   // Delete user
-  console.log('\n🗑️ Deleting Charlie:');
+  console.log('🗑️ Deleting Charlie...');
   await db.delete('users', { name: 'Charlie' });
-  const remainingUsers = await db.find('users');
-  console.log('Remaining users:', remainingUsers.length);
+  const remaining = await db.find('users');
+  console.log('Remaining users:', remaining);
+  console.log();
 
-  console.log('\n✅ Example completed! Check mydata.json file.');
+  // List collections
+  console.log('📂 Collections:', db.collections());
+
+  console.log('\n✅ Classic API example complete!');
 }
 
 main().catch(console.error);
